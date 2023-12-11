@@ -1,0 +1,49 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+  - name: Delete all existing repos
+    ansible.builtin.shell: rm -rf CentOS* && rm -rf epel*
+    args:
+      chdir: /etc/yum.repos.d/
+
+  - name: Setup RNCB base repos
+    yum_repository:
+      name: base
+      description: RNCB CentOS-$releasever - Base Repo
+      gpgcheck: true
+      gpgkey: file:///10.82.245.36/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+      baseurl: ftp://10.82.245.36/centos/$releasever/os/$basearch/
+  
+  - name: Setup RNCB updates repos
+    yum_repository:
+      name: updates
+      description: RNCB CentOS-$releasever - Updates Repo
+      gpgcheck: true
+      gpgkey: file:///10.82.245.36/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+      baseurl: ftp://10.82.245.36/centos/$releasever/updates/$basearch/
+  
+  - name: Setup RNCB extras repos
+    yum_repository:
+      name: extras
+      description: RNCB CentOS-$releasever - Extras Repo
+      gpgcheck: true
+      gpgkey: file:///10.82.245.36/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+      baseurl: ftp://10.82.245.36/centos/$releasever/extras/$basearch/
+  
+  - name: Setup RNCB centosplus repos
+    yum_repository:
+      name: centosplus
+      description: RNCB CentOS-$releasever - Plus Repo
+      gpgcheck: true
+      gpgkey: file:///10.82.245.36/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+      baseurl: ftp://10.82.245.36/centos/$releasever/centosplus/$basearch/
+
+  - name: Setup RNCB epel repos
+    yum_repository:
+      name: epel 
+      description: RNCB CentOS-$releasever - Plus Repo
+      gpgcheck: true
+      gpgkey: file:///10.82.245.36/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+      baseurl: ftp://10.82.245.36/centos/$releasever/epel/$basearch/

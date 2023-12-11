@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+  - name: Setup Usergate HTTP proxy
+    lineinfile:
+      path: /etc/environment
+      line: http_proxy="{{ url }}"
+
+  - name: Setup Usergate HTTPS proxy  
+    lineinfile:
+      path: /etc/environment
+      line: https_proxy="{{ url }}"
